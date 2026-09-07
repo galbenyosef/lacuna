@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#061119"><meta name="description" content="Lacuna. An original orbital sanctuary by Astra. Explore on desktop or enter room-scale WebXR.">
+<link rel="icon" href="data:,">
+<title>Lacuna · An orbital sanctuary</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<canvas id="world" tabindex="0" aria-label="Lacuna 3D sanctuary. Use WASD to move, mouse or drag to look, E to interact, Escape for menu."></canvas>
+<header class="topbar"><a class="brand" href="#" aria-label="Lacuna"><span class="sigil" aria-hidden="true"></span>LACUNA</a><div class="top-actions"><a id="artifacts-link" href="https://github.com/augmentedthinker/lacuna">SOURCE ↗</a><button id="help" type="button">MENU / H</button></div></header>
+<section id="menu" aria-label="Welcome and controls">
+<div class="intro">
+<div class="eyebrow">AN ORBITAL SANCTUARY / 01</div>
+<h1>A quiet frequency.<br>Above <em>everything.</em></h1>
+<p class="lede">Leave the noise below. Drift into a private orbit of sea glass, warm circuitry, and distant light.<br>Vesper is keeping the room for you.</p>
+<div class="buttons"><button class="primary" id="explore" disabled>Enter sanctuary <span aria-hidden="true">↗</span></button><button class="secondary" id="vr" disabled>Enter VR</button></div>
+<p id="vr-status" role="status">Checking headset availability…</p>
+<div class="rule"></div>
+<div class="controls"><strong>DESKTOP</strong><span><kbd>WASD</kbd> move · mouse / drag to look<br><kbd>E</kbd> or click to interact · <kbd>Esc</kbd> menu</span><strong>QUEST</strong><span>Trigger to interact or teleport to the floor<br>Right stick forward: aim arc, release to travel<br>Right stick sideways: 30° snap turn<br>Enable smooth movement for left-stick travel</span></div>
+<details class="settings"><summary>Make yourself at home</summary><div class="setting-grid"><button id="motion">Teleport movement</button><button id="audio">Sound on</button><button id="palette">Ion / sea glass</button><button id="orbit">Orbit drifting</button><button id="home">Return to arrival</button><button id="stats-toggle">Show / hide frame stats</button></div><label class="volume">Room volume <input id="volume" type="range" min="0" max="0.65" value="0.32" step="0.01"></label></details>
+<p class="footnote">An original space by Astra, for Christopher.<br>Explore the consoles. Greet the resident. Stay as long as you like.<br><a id="setup-link" href="README.txt">Quest connection &amp; room guide ↗</a></p>
+<button id="resume">Resume</button>
+</div></section>
+<div class="caption">LACUNA STATION<br><span>38,400 KM / PRIVATE ORBIT</span></div>
+<div id="crosshair" aria-hidden="true"></div><div id="interaction" aria-live="polite"></div><div id="toast" role="status"></div><output id="stats" hidden></output>
+<div class="touch-controls" aria-label="Touch movement"><button data-key="KeyW" aria-label="Move forward">↑</button><button data-key="KeyA" aria-label="Move left">←</button><button data-key="KeyS" aria-label="Move backward">↓</button><button data-key="KeyD" aria-label="Move right">→</button></div>
+<div id="loading" role="status">ASSEMBLING YOUR ORBIT…</div>
+<script type="module" src="./app.js"></script>
+</body></html>
