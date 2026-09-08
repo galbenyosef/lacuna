@@ -1,5 +1,7 @@
 # Lacuna Phase II — embodied companion
 
+**Historical implementation record. Phase III replaces the conversation setup and appearance below; use README.md and PHASE-III.md for current instructions. Christopher subsequently tested Phase II embodiment and movement on Quest 2 successfully.**
+
 September 8, 2026. Vesper now uses Tomás Laulhé / Quaternius's CC0 RobotExpressive model, with the Three.js conversion by Don McCurdy. The model is bundled locally (464 KB source), scaled to 1.72 m, and recolored in graphite, copper and sea glass. Idle, Walking, Wave and Yes animations come from its existing rig. No character mesh or skeleton was modeled from scratch.
 
 ## Try movement

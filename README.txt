@@ -1,6 +1,6 @@
 # Lacuna — an orbital sanctuary
 
-An original WebXR room by Astra for Christopher, September 7, 2026. A private observation lounge above a luminous planet: graphite alloy, ceramic, sea-glass light and warm copper. Vesper, an articulated robotic companion, keeps the room. Phase II adds station travel, live spatial telemetry and an optional authenticated conversation connection; see PHASE-II.md for setup and verification limits.
+An original WebXR room by Astra for Christopher, September 7, 2026. A private observation lounge above a luminous planet: graphite alloy, ceramic, sea-glass light and warm copper. Vesper, an articulated robotic companion, keeps the room. Phase III gives Vesper a surveyor helmet and orbital insignia, a shoulder menu, and streamed text dialogue through your own Gemini key. The imported rig and its animations remain; no character was rigged from scratch. See PHASE-III.md for implementation evidence and limits.
 
 ## Open it
 
@@ -8,7 +8,7 @@ The integrated version is already served by Astra:
 
 http://127.0.0.1:4317/astra-lacuna.html
 
-It is linked from Artifacts and includes the shared Astra chat. No chat-server restart is required. The standalone build in `dist/` does not contain chat, account access, analytics, remote asset requests, or a dependency on the Astra service.
+It is linked from Artifacts and includes the shared Astra chat. The standalone build in `dist/` does not contain chat, account access, analytics, remote asset requests, or a dependency on the Astra service.
 
 To run the standalone version from this directory:
 
@@ -18,9 +18,22 @@ node serve.mjs
 
 Then open http://127.0.0.1:4318 in a browser. Node is the only serving dependency; the distributable itself is plain HTML, CSS and bundled JavaScript. `serve.mjs` serves only `dist/`, binds to loopback by default, and rejects paths outside that directory. Any ordinary static server can also serve `dist/`.
 
+## Talk with the surveyor
+
+1. Open **Talk with Vesper → Cloud & AI settings** before entering VR.
+2. Paste your own Gemini API key, choose Flash or Flash-Lite, then **Save settings → Close**. Configure it in the headset browser too; devices do not share these settings.
+3. Enter VR and select Vesper with the trigger. The shoulder menu offers **Walk to window**, **Check archive**, **Status report**, and **Write a message**. The latter opens a controller keyboard. You can also use the normal text field in the browser menu.
+4. Replies stream in a small glass bubble above Vesper. Longer replies page automatically; the browser menu retains the full recent conversation. **Stop reply** cancels a pending turn. There is no spoken bot voice.
+
+A key is only remembered if you select **Remember key on this device**. Local storage is not encrypted; **Forget key** removes it. Conversation saving is also optional and local to the browser. **New conversation** clears the bounded history. When you send, your message, recent conversation and simulator coordinates go to Google. There is no cross-device or Supabase history configured.
+
+Window travel and spatial status work without a key. Live conversation uses a direct browser connection to Google, with no local companion daemon and no background model calls. Free quota and latency depend on your Google project; no paid fallback or automatic retry is used. Optional browser voice capture produces a draft to review and send, with support varying by browser.
+
+The connection has been tested with simulated streamed replies. An actual Gemini conversation was not tested because no provider key was available in this workspace. Enter your key in the settings panel, not the Astra chat.
+
 ## Quest 2 connection
 
-Christopher uses the existing GitHub Pages site at https://augmentedthinker.github.io/lacuna/ without a cable. Phase I was physically tested by him with excellent reported comfort. Phase II requires a new headset check. The local source and public deployment are separate; see PHASE-II.md for delivery status and companion-service setup.
+Christopher uses the existing GitHub Pages site at https://augmentedthinker.github.io/lacuna/ without a cable. Phase I was physically tested by him with excellent reported comfort. He also tested Phase II embodiment, spatial awareness and movement successfully. The Phase III appearance, dialogue legibility and sustained frame pacing need a new headset check. The local source and public deployment are separate; see PHASE-III.md for current implementation details.
 
 
 WebXR needs a secure browser context. Plain HTTP at a computer's LAN IP does not satisfy this. Use either a localhost connection forwarded to the computer or HTTPS with a certificate trusted by the headset. The application detects browser VR support and enables Enter VR when available.
@@ -76,14 +89,14 @@ Walk around within your actual clear play area. Physical entry into a virtual ob
 
 ## Things to discover
 
-- Vesper uses an imported articulated rig, walks to registered stations, waits for clearance, faces Christopher on arrival and waves. Select the resident for the controller-operated text/destination panel. Live conversation requires the separate configured service described in PHASE-II.md.
+- Vesper uses an imported articulated rig, walks to registered stations, waits for clearance, faces Christopher on arrival and waves. Select the resident for the controller-operated shoulder menu. Live Gemini conversation uses the settings described above.
 - Chromatic Tide changes the room's emissive palette between ion, ember and dusk.
 - Orbital Archive holds or resumes the planet and holographic orbital chart.
 - Positional synthesis places a tonal core at Vesper, filtered ventilation near the rear port wall, and a quieter atmospheric layer at the observation window. Distance attenuation and stereo placement follow the actual head pose. Audio begins only after a user gesture, with mute and volume controls.
 
 ## Architecture and performance intent
 
-Three.js 0.185.1 is pinned locally. Source modules separate the room geometry, collision, audio and controls. esbuild produces one local bundle containing Three.js and the original generated alloy image. No CDN, font service, model download or music stream is needed to explore or move the resident. Optional live conversation calls a separately configured service only when Send is selected.
+Three.js 0.185.1 is pinned locally. Source modules separate the room geometry, collision, audio and controls. esbuild produces one local bundle containing Three.js and the original generated alloy image. No CDN, font service, model download or music stream is needed to explore or move the resident. Optional live conversation calls Google only when Send is selected.
 
 The main camera lives inside a translation/yaw rig. A 0.27 m floor-projected capsule governs desktop and smooth movement. Substeps prevent tunnelling, axis-separated movement permits wall sliding, and the shared landing predicate rejects wall and furniture overlaps. Teleport rays stop on the nearest solid geometry before validating floor clearance. The same collision code is tested directly.
 
@@ -109,7 +122,7 @@ The root Artifacts entry and root README are maintained separately. Run `python3
 - Alloy surface maps onto architectural panels, furniture bases and room surfaces.
 - Floor shading, circuit panels and all readable displays: original CanvasTexture drawing code in `src/world.js`.
 - Planet: original noise-based shader in `src/world.js`.
-- Vesper: imported CC0 RobotExpressive rig by Tomás Laulhé / Quaternius, conversion by Don McCurdy, with Lacuna material customization. See assets/RESIDENT-LICENSE.txt. Controllers, architecture and furniture remain original procedural geometry.
+- Vesper: imported CC0 RobotExpressive rig by Tomás Laulhé / Quaternius, conversion by Don McCurdy, with an original Lacuna helmet, orbital badge and material customization. See assets/RESIDENT-LICENSE.txt. Controllers, architecture and furniture remain original procedural geometry.
 - Sound: original local Web Audio synthesis in `src/audio.js`, including deterministic noise, oscillators and positional panners.
 - Three.js: MIT license, preserved in `dist/THREE-LICENSE.txt`.
 

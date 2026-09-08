@@ -2,30 +2,28 @@
 
 [Enter Lacuna](https://augmentedthinker.github.io/lacuna/)
 
-An original cyberpunk WebXR room by Astra for Christopher. Graphite alloy, warm circuitry, a luminous planetary horizon, and Vesper: a custom animated synthetic resident.
+An original WebXR observation lounge by Astra for Christopher. Graphite alloy, copper, sea-glass light and a luminous planetary horizon. Vesper is an articulated orbital surveyor built on the CC0 RobotExpressive rig, with an original helmet and telemetry insignia.
 
 ## Quest 2
 
-Open https://augmentedthinker.github.io/lacuna/ directly in the native Quest Browser. Choose **Enter VR** and allow the browser's VR request. No cable or computer connection is needed after loading the site.
+Open the site in the native Quest Browser. Before entering VR, expand **Talk with Vesper → Cloud & AI settings** to configure your own Gemini key for conversation. Save settings, close, then choose **Enter VR**. No cable or local computer service is needed.
 
-- Trigger: interact, or teleport to clear floor.
-- Right stick forward: aim a curved teleport arc; release to travel.
-- Right stick sideways: 30-degree snap turn; release before turning again.
-- Teleport is the default. Enable smooth movement in the welcome menu or at the rear Sanctuary Systems panel; the left stick then moves relative to head direction.
-- Rear controls toggle audio and exit VR.
+- Trigger selects Vesper, shoulder-menu buttons, consoles or clear floor for teleportation.
+- Right stick forward aims a teleport arc; release to travel.
+- Right stick sideways turns 30 degrees; release before turning again.
+- Teleport is the default. Optional smooth movement uses the left stick.
+- Rear controls toggle ambient sound and exit VR.
 
-Use a clear physical play area. The virtual boundary overlay is not a substitute for the headset's real-world boundary system.
+The shoulder menu offers Window, Archive, Status and a controller text keyboard. Replies stream above Vesper, with no bot voice playback. Local movement and status work without an API key. Conversation sends recent turns and current simulated coordinates directly to Google when you select Send. Keys and recent history are remembered only with their explicit device-local options; localStorage is not encrypted. No key is published, and no cross-device history is configured.
 
 ## Desktop
 
-Choose **Enter sanctuary**. WASD or arrow keys move, mouse or drag looks around, E or click interacts, and Escape opens the menu. The menu provides atmosphere, audio and movement settings.
+Choose **Enter sanctuary**. WASD or arrows move, mouse or drag looks, E/click interacts, and H or Escape opens the menu. The browser menu includes a regular text field, AI settings and the full recent dialogue.
 
-## About the build
+## Verification
 
-All runtime assets are served by this site or embedded in its JavaScript. No account, API key, asset CDN, external audio stream or chat service is required. Vesper and the room are custom geometry, the alloy texture was generated for this project, and displays, planetary detail and spatial audio are generated locally by the application.
+Christopher physically tested Phase I comfort and Phase II embodiment, spatial awareness and movement on Quest 2 successfully. Phase III browser and emulated-controller checks pass, including streamed dialogue with a mocked provider. Real Gemini replies, Phase III headset legibility and sustained frame pacing remain acceptance checks. No physical 72 fps measurement is claimed. Free quota and latency depend on the Google project; no automatic paid fallback exists.
 
-Three.js 0.185.1 is included under its MIT license; see THREE-LICENSE.txt.
+See [the room guide](README.txt) and [Phase III engineering record](PHASE-III.md) for details. Use a clear physical play area and the headset’s real-world boundary.
 
-Desktop interaction, collision and Meta Quest 2 emulation tests passed during development. Physical Quest 2 performance, haptics and comfort still require device verification. The application requests 72 Hz where available; this is a target, not a measured hardware result.
-
-This repository contains the deployable static distribution. GitHub Pages serves the main branch at its root.
+This repository is the static distribution. All model and room assets are local or embedded; the optional Gemini call is the only application AI connection. No Astra chat service or private continuity data is included. Three.js 0.185.1 is MIT-licensed; see THREE-LICENSE.txt. Original model attribution and CC0 terms are in RESIDENT-LICENSE.txt.

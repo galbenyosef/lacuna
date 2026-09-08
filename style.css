@@ -5,3 +5,14 @@
 .companion-settings label { display:block; margin:12px 0; font-size:13px; }
 .companion-settings input:not([type=checkbox]), .companion-settings textarea { display:block; width:100%; box-sizing:border-box; padding:10px; margin-top:6px; background:#08161e; color:#dfefeb; border:1px solid #365258; border-radius:6px; font:inherit; }
 #companion-log { white-space:pre-wrap; max-height:240px; overflow:auto; font:14px/1.6 sans-serif; }
+
+#cloud-settings { width:min(520px,calc(100vw - 32px)); max-height:85svh; overflow:auto; padding:26px; background:#08141d; color:#dfefe8; border:1px solid #537c72; border-radius:12px; }
+#cloud-settings::backdrop { background:#000b; }
+#cloud-settings h2 { font:28px Georgia,serif; margin:0 0 16px; }
+#cloud-settings p { font-size:14px; line-height:1.6; }
+#cloud-settings label { display:block; margin:16px 0; font-size:14px; }
+#cloud-settings input:not([type=checkbox]),#cloud-settings select { display:block; width:100%; padding:11px; margin-top:8px; border:1px solid #476059; border-radius:5px; background:#030c12; color:#e0ede6; font:inherit; }
+#cloud-settings .settings-note { color:#9fb3ad; font-size:12px; }
+#cloud-settings .check { display:flex; gap:10px; align-items:center; }
+#companion-location { display:block; margin:12px 0; color:#94baac; font-size:11px; line-height:1.6; }
+[hidden] { display:none!important; }
