@@ -20,6 +20,16 @@
 <div class="rule"></div>
 <div class="controls"><strong>DESKTOP</strong><span><kbd>WASD</kbd> move · mouse / drag to look<br><kbd>E</kbd> or click to interact · <kbd>Esc</kbd> menu</span><strong>QUEST</strong><span>Trigger to interact or teleport to the floor<br>Right stick forward: aim arc, release to travel<br>Right stick sideways: 30° snap turn<br>Enable smooth movement for left-stick travel</span></div>
 <details class="settings"><summary>Make yourself at home</summary><div class="setting-grid"><button id="motion">Teleport movement</button><button id="audio">Sound on</button><button id="palette">Ion / sea glass</button><button id="orbit">Orbit drifting</button><button id="home">Return to arrival</button><button id="stats-toggle">Show / hide frame stats</button></div><label class="volume">Room volume <input id="volume" type="range" min="0" max="0.65" value="0.32" step="0.01"></label></details>
+<details class="settings companion-settings"><summary>Talk with Vesper</summary>
+<p>Invite Vesper to a station, or connect live conversation. The service address and pairing token stay in this page’s memory.</p>
+<div class="setting-grid"><button data-destination="observation_window">Meet at the window</button><button data-destination="orbital_archive">Visit the archive</button><button data-destination="chromatic_tide">Visit Chromatic Tide</button><button data-destination="arrival_threshold">Meet at arrival</button></div>
+<label>Companion service (HTTPS)<input id="companion-endpoint" type="url" placeholder="https://your-companion-service"></label>
+<label>Pairing token<input id="companion-token" type="password" autocomplete="off"></label>
+<label><input id="companion-speech" type="checkbox"> Read replies aloud</label>
+<form id="companion-form"><label for="companion-input">Your message</label><textarea id="companion-input" maxlength="600" rows="3" placeholder="Vesper, come to the window with me."></textarea><div class="buttons"><button type="submit">Send</button><button id="companion-voice" type="button">Voice / stop</button></div></form>
+<p id="companion-status" role="status">Not connected · station travel available</p><pre id="companion-log" aria-live="polite"></pre>
+<div class="buttons"><button id="companion-show" type="button">Show spatial keyboard</button><button id="companion-reset" type="button">New conversation</button></div>
+</details>
 <p class="footnote">An original space by Astra, for Christopher.<br>Explore the consoles. Greet the resident. Stay as long as you like.<br><a id="setup-link" href="README.txt">Quest connection &amp; room guide ↗</a></p>
 <button id="resume">Resume</button>
 </div></section>
