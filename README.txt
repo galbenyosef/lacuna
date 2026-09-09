@@ -1,135 +1,48 @@
-# Lacuna — an orbital sanctuary
+# Lacuna — speak to the surveyor
 
-An original WebXR room by Astra for Christopher, September 7, 2026. A private observation lounge above a luminous planet: graphite alloy, ceramic, sea-glass light and warm copper. Vesper, an articulated robotic companion, keeps the room. Phase III gives Vesper a surveyor helmet and orbital insignia, a shoulder menu, and streamed text dialogue through your own Gemini key. The imported rig and its animations remain; no character was rigged from scratch. See PHASE-III.md for implementation evidence and limits.
+An orbital sanctuary by Astra for Christopher: graphite, copper and sea-glass light above a luminous planet. Vesper now wears a unified matte carbon suit with luminous seams across the body, restrained copper details and a clean dark visor. The added antenna and ear hardware are gone.
 
-## Open it
+## One press, then speak
 
-The integrated version is already served by Astra:
+Open [Lacuna on Quest](https://augmentedthinker.github.io/lacuna/), reload the page, and enter VR. The single bright **Speak to Vesper** button is already beside the resident. Aim and press the trigger once.
 
-http://127.0.0.1:4317/astra-lacuna.html
+The button changes to **Listening… Speak Now**. Speak naturally, then pause. Your speech is transcribed and sent automatically. Vesper's short answer appears overhead; the button becomes ready for the next thought. You can say “Please walk to the observation window” to request movement. No keyboard, typing, draft review, Send button or API-key entry is required. Allow microphone access when the browser asks.
 
-It is linked from Artifacts and includes the shared Astra chat. The standalone build in `dist/` does not contain chat, account access, analytics, remote asset requests, or a dependency on the Astra service.
+The regular browser menu offers the same single voice button, local destination controls, spatial status and a read-only conversation log. Optional **Keep recent conversation on this device** preserves bounded recent history. **New conversation** clears it and cancels pending capture or replies. No bot text-to-speech plays; room ambience has its own sound control.
 
-To run the standalone version from this directory:
+## The live connection
 
-```sh
-node serve.mjs
-```
+The authorized Gemini key is loaded by a separate local voice service. It is not in the downloadable room, browser storage or GitHub repository. The Quest page reaches that service through an HTTPS tunnel. Speech recognition runs through the browser when supported. Otherwise, short microphone audio is captured until a pause, sent to Gemini for transcription, and its transcript is automatically submitted for conversation. Lacuna does not save microphone recordings.
 
-Then open http://127.0.0.1:4318 in a browser. Node is the only serving dependency; the distributable itself is plain HTML, CSS and bundled JavaScript. `serve.mjs` serves only `dist/`, binds to loopback by default, and rejects paths outside that directory. Any ordinary static server can also serve `dist/`.
+Gemini 2.5 Flash returned a model-unavailable error for this account. Google directed it to **Gemini 3.6 Flash**, which has been verified with the actual key. Replies use a minimal thinking setting and a 150-token cap. Navigation tags are validated and removed before display. Recent dialogue and current room coordinates keep the conversation grounded.
 
-## Talk with the surveyor
+**The hosting computer must remain awake and online.** The current Cloudflare development tunnel is live, but its address can change if its service restarts; this is not permanent cloud hosting. No Supabase sync is needed for the present voice loop, and no Supabase tables or project settings were changed.
 
-1. Open **Talk with Vesper → Cloud & AI settings** before entering VR.
-2. Paste your own Gemini API key, choose Flash or Flash-Lite, then **Save settings → Close**. Configure it in the headset browser too; devices do not share these settings.
-3. Enter VR and select Vesper with the trigger. The shoulder menu offers **Walk to window**, **Check archive**, **Status report**, and **Write a message**. The latter opens a controller keyboard. You can also use the normal text field in the browser menu.
-4. Replies stream in a small glass bubble above Vesper. Longer replies page automatically; the browser menu retains the full recent conversation. **Stop reply** cancels a pending turn. There is no spoken bot voice.
+## What was actually tested
 
-A key is only remembered if you select **Remember key on this device**. Local storage is not encrypted; **Forget key** removes it. Conversation saving is also optional and local to the browser. **New conversation** clears the bounded history. When you send, your message, recent conversation and simulator coordinates go to Google. There is no cross-device or Supabase history configured.
+A generated spoken sentence was supplied to Chromium as microphone audio. One button press triggered real microphone capture, automatic silence detection, real Gemini transcription and a real Gemini reply through the public HTTPS service. The reply appeared overhead and sent Vesper toward the observation window. Capture tracks stopped afterward. This is a real provider test with an audio fixture, not a physical Quest microphone test.
 
-Window travel and spatial status work without a key. Live conversation uses a direct browser connection to Google, with no local companion daemon and no background model calls. Free quota and latency depend on your Google project; no paid fallback or automatic retry is used. Optional browser voice capture produces a draft to review and send, with support varying by browser.
-
-The connection has been tested with simulated streamed replies. An actual Gemini conversation was not tested because no provider key was available in this workspace. Enter your key in the settings panel, not the Astra chat.
-
-## Quest 2 connection
-
-Christopher uses the existing GitHub Pages site at https://augmentedthinker.github.io/lacuna/ without a cable. Phase I was physically tested by him with excellent reported comfort. He also tested Phase II embodiment, spatial awareness and movement successfully. The Phase III appearance, dialogue legibility and sustained frame pacing need a new headset check. The local source and public deployment are separate; see PHASE-III.md for current implementation details.
-
-
-WebXR needs a secure browser context. Plain HTTP at a computer's LAN IP does not satisfy this. Use either a localhost connection forwarded to the computer or HTTPS with a certificate trusted by the headset. The application detects browser VR support and enables Enter VR when available.
-
-### USB / ADB localhost forwarding
-
-With Quest developer mode enabled, USB debugging authorized on the headset, and Android platform-tools installed on the connected computer:
-
-1. Start the standalone server above.
-2. Connect the Quest by USB. On a Chromebook, make the USB device available to the Linux environment when prompted.
-3. Run `adb devices` and confirm the headset appears as an authorized device.
-4. Run `adb reverse tcp:4318 tcp:4318`.
-5. In the native Quest Browser, open `http://localhost:4318` and choose **Enter VR**.
-
-This keeps content on your computer and uses the headset's localhost secure context. The forwarding lasts only while the device connection is available. To remove it: `adb reverse --remove tcp:4318`.
-
-Alternatively, forward port 4317 and visit `http://localhost:4317/astra-lacuna.html` for the integrated Astra version. The isolated standalone route is sufficient for the room.
-
-ADB was not installed in this Linux environment during development, and no physical headset connection was established. These instructions do not imply a verified device connection.
-
-### Existing local HTTPS setup
-
-You can serve `dist/` through your existing trusted local HTTPS server. No source from Horizon or Haven Manor was read or reused for Lacuna.
-
-The included server also accepts a certificate and key:
-
-```sh
-HOST=0.0.0.0 PORT=4318 TLS_CERT=/absolute/path/cert.pem TLS_KEY=/absolute/path/key.pem node serve.mjs
-```
-
-Use the HTTPS hostname covered by that certificate and trusted on Quest. Network reachability and Chromebook/Linux forwarding depend on your setup. Merely dismissing a self-signed certificate warning is not a reliable substitute for a trusted secure context.
+Additional checks cover native speech event ordering, duplicate prevention, microphone-denial recovery, cancellation, navigation and browser layout. Quest-controller emulation exercises the shoulder button and the existing comfortable movement controls. Christopher's new headset check remains the authority for physical microphone behavior, legibility and sustained frame pacing. No measured 72 fps claim is made.
 
 ## Controls
 
-Desktop:
+- Quest: trigger selects the voice button, consoles or clear floor for teleportation. Right stick forward aims an arc; release travels. Right stick sideways snaps 30 degrees.
+- Optional smooth movement uses the left stick. Rear controls toggle ambient sound and exit VR.
+- Desktop: WASD/arrows move, mouse/drag looks, E/click interacts, H/Escape opens the menu.
+- If you stand in Vesper's intended path, it waits for clearance. Step aside to let it arrive.
 
-- Enter sanctuary captures the mouse. WASD or arrow keys move; mouse movement looks around.
-- If mouse capture is unavailable, drag the view to look and use the same movement keys.
-- Aim at Vesper or a console, then press E or click.
-- Escape or H opens the menu. Its settings change atmosphere, audio, orbit and movement preference. Return to arrival restores the initial position.
-- Touch browsers have drag look and directional buttons. Desktop and Quest are the primary interaction targets.
+## Local maintenance
 
-Quest Touch controllers:
+Source is in `artifacts/lacuna/src`. Run `node artifacts/lacuna/build.mjs` from Astra to refresh the root room files and standalone `dist/`. Run `python3 artifacts/lacuna/build-guide.py` to refresh this browser guide. The standalone preview is `node artifacts/lacuna/serve.mjs`, on loopback port 4318.
 
-- Trigger interacts with the nearest unobstructed target. Trigger on clear floor teleports directly.
-- Push the right thumbstick forward to show a curved teleport arc; release to travel. A mint marker is valid, a coral marker is blocked.
-- Right thumbstick left/right makes one 30-degree snap turn. Release the stick before another turn.
-- Teleport mode is the default. Enable smooth movement in the desktop menu before entering VR, or use the Sanctuary Systems panel on the rear wall. In smooth mode the left thumbstick moves at 1.6 m/s, relative to head direction; teleport remains available.
-- Rear-wall Audio and Disembark controls toggle sound and end VR. The headset's system controls can also exit.
-- Controller rays and custom grip models are local geometry. Trigger reactions request a short haptic pulse when the controller exposes an actuator.
+`lacuna-voice.service` reads the authorized local credential and serves only bounded `/reply` and `/transcribe` requests on loopback 4321. It exposes no Astra files or agent tools. `lacuna-tunnel.service` supplies HTTPS. These are user services; inspect with `systemctl --user status lacuna-voice lacuna-tunnel`. If the tunnel restarts, refresh `assets/connection.json` from its new URL in `tunnel.log`, rebuild, update the integrated connection policy and republish the public distribution. Never copy the key into a build.
 
-Walk around within your actual clear play area. Physical entry into a virtual obstruction blacks out the scene and asks you to step back; the app does not push or forcibly translate your tracked head. This software boundary is not a replacement for the headset's real-world boundary system.
+Tests: `npm test` here; browser scripts run from Astra root. `tests/voice-live.cjs` needs the documented spoken WAV fixture at `/tmp/lacuna-microphone.wav` and calls real Gemini. Its result records explicitly distinguish fixture audio from hardware testing. See PHASE-III.md for the change record.
 
-## Things to discover
+## Provenance
 
-- Vesper uses an imported articulated rig, walks to registered stations, waits for clearance, faces Christopher on arrival and waves. Select the resident for the controller-operated shoulder menu. Live Gemini conversation uses the settings described above.
-- Chromatic Tide changes the room's emissive palette between ion, ember and dusk.
-- Orbital Archive holds or resumes the planet and holographic orbital chart.
-- Positional synthesis places a tonal core at Vesper, filtered ventilation near the rear port wall, and a quieter atmospheric layer at the observation window. Distance attenuation and stereo placement follow the actual head pose. Audio begins only after a user gesture, with mute and volume controls.
+Vesper retains the CC0 RobotExpressive skeleton and animations by Tomás Laulhé / Quaternius, with the Three.js conversion by Don McCurdy. Lacuna's whole-body materials, telemetry seams, visor and insignia are custom. This is an overhaul of an imported character, not a newly rigged model. Attribution is in RESIDENT-LICENSE.txt. Three.js 0.185.1 is MIT-licensed. Room architecture, planetary shader and ambient synthesis remain locally generated; the alloy image was generated for Lacuna.
 
-## Architecture and performance intent
-
-Three.js 0.185.1 is pinned locally. Source modules separate the room geometry, collision, audio and controls. esbuild produces one local bundle containing Three.js and the original generated alloy image. No CDN, font service, model download or music stream is needed to explore or move the resident. Optional live conversation calls Google only when Send is selected.
-
-The main camera lives inside a translation/yaw rig. A 0.27 m floor-projected capsule governs desktop and smooth movement. Substeps prevent tunnelling, axis-separated movement permits wall sliding, and the shared landing predicate rejects wall and furniture overlaps. Teleport rays stop on the nearest solid geometry before validating floor clearance. The same collision code is tested directly.
-
-Static boxes are merged by material. Lighting uses a baked reflection environment, two directional lights, a hemisphere fill and one limited-range point light. There are no live shadows, postprocessing bloom, live reflections or physics-library updates. Neon comes from emissive-looking materials; the planetary surface is an original procedural shader. The design uses a modest geometry budget and requests 72 Hz if exposed by the XR session. XR framebuffer scale is 0.85 with foveation 0.65.
-
-The frame-stats setting displays the last sampled application frame interval, draw calls and triangles. It is not a GPU profiler or an average frame-time measurement. Actual Quest 2 performance and comfort require hardware verification; software-rendered desktop emulation cannot establish a headset frame rate.
-
-## Build and verification
-
-```sh
-npm ci
-npm run build
-npm test
-```
-
-`build.mjs` refreshes `dist/` and the three root `astra-lacuna.*` files. Edit the source files rather than generated bundles. Playwright checks in `tests/` use the existing local Chromium/runtime tooling; IWER is a development-only dependency and is never included in the production bundle. See `verification.md` for the measured checks and remaining hardware validation.
-
-The root Artifacts entry and root README are maintained separately. Run `python3 build.py` in Astra after changing core Markdown.
-
-## Asset provenance
-
-- `assets/alloy.png`: original image created with the built-in image-generation tool, copied into this workspace. Exact prompt is in `assets/prompt.md`.
-- Alloy surface maps onto architectural panels, furniture bases and room surfaces.
-- Floor shading, circuit panels and all readable displays: original CanvasTexture drawing code in `src/world.js`.
-- Planet: original noise-based shader in `src/world.js`.
-- Vesper: imported CC0 RobotExpressive rig by Tomás Laulhé / Quaternius, conversion by Don McCurdy, with an original Lacuna helmet, orbital badge and material customization. See assets/RESIDENT-LICENSE.txt. Controllers, architecture and furniture remain original procedural geometry.
-- Sound: original local Web Audio synthesis in `src/audio.js`, including deterministic noise, oscillators and positional panners.
-- Three.js: MIT license, preserved in `dist/THREE-LICENSE.txt`.
-
-## Technical references
-
-- [Three.js WebXRManager](https://threejs.org/docs/pages/WebXRManager.html): session rendering, reference spaces, controllers, framebuffer scale and foveation.
-- [MDN: WebXR startup and shutdown](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Startup_and_shutdown): secure context and session lifecycle.
-- [MDN: XRInputSource.gamepad](https://developer.mozilla.org/en-US/docs/Web/API/XRInputSource/gamepad): controller gamepad access through XR input sources.
-- [Android Developers: local development server access](https://developer.android.com/develop/ui/views/layout/webapps/access-local-server): ADB reverse forwarding and localhost.
-- [Meta IWER](https://meta-quest.github.io/immersive-web-emulation-runtime/getting-started.html): development-only headset and controller emulation.
+- [Google audio understanding](https://ai.google.dev/gemini-api/docs/audio)
+- [Browser speech recognition lifecycle](https://developer.chrome.com/blog/voice-driven-web-apps-introduction-to-the-web-speech-api/)
+- [Cloudflare development tunnel limitations](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/)
